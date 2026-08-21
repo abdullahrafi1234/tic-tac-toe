@@ -1,10 +1,7 @@
 import { useState } from "react";
 import Square from "./components/Square";
 
-function App() {
-  const [squares, setSquares] = useState(Array(9).fill(null));
-  const [xIsNext, setXIsNext] = useState(true);
-
+function App({ xIsNext, squares, onPlay }) {
   const winner = calculateWinner(squares);
   let status;
 
@@ -24,8 +21,7 @@ function App() {
     } else {
       nextSquares[i] = "O";
     }
-    setSquares(nextSquares);
-    setXIsNext(!xIsNext);
+    onPlay(nextSquares);
   };
 
   return (
@@ -53,7 +49,28 @@ function App() {
   );
 }
 
-export default App;
+export default function Game() {
+  const [history, setHistory] = useState([Array(9).fill(null)]);
+  const [xIsNext, setXIsNext] = useState(true);
+
+  const currentSquares = history[history.length - 1];
+
+  function handlePlay(nextSquares) {
+    setXIsNext(!xIsNext);
+    setHistory([...history, nextSquares]);
+  }
+
+  return (
+    <div>
+      <div>
+        <App xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+      </div>
+      <div>
+        <ol>{/*TBD*/}</ol>
+      </div>
+    </div>
+  );
+}
 
 function calculateWinner(squares) {
   const lines = [
@@ -68,7 +85,6 @@ function calculateWinner(squares) {
   ];
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
-    console.log(a, b, c);
 
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
       return squares[a];
