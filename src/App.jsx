@@ -68,7 +68,7 @@ export default function Game() {
     setXIsNext(move % 2 === 0);
   }
 
-  const moves = history.map((squares, move) => {
+  const moves = history.map((move) => {
     let description;
     if (move > 0) {
       description = `Go to the move # ${move}`;
