@@ -49,6 +49,7 @@ function App({ xIsNext, squares, onPlay }) {
   );
 }
 
+// Main component
 export default function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [xIsNext, setXIsNext] = useState(true);
